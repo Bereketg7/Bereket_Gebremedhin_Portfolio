@@ -1,14 +1,14 @@
 <!doctype html>
 <!--
   ==========================================================================
-  PERSONAL PORTFOLIO — index.html  ("Night Cockpit" design)
+  PORTFOLIO — Bereket G. Gebremedhin (the whole site is this one page)
   --------------------------------------------------------------------------
-  HTML5 + Bootstrap 5.3 (CDN) + a little vanilla JS. No build step.
-  Search this file for "[REPLACE]" to find every placeholder to edit.
-  Page order: Navbar → Hero → 01 About → 02 Skills → 03 Projects →
-              04 Experience → 05 Credentials → 06 Contact → Footer
-  Styles: css/tokens.css (colors, fonts, sizes) + css/style.css (components)
-  Design reference: docs/DESIGN-SYSTEM.md
+  HTML5 + Bootstrap 5.3.3 CSS (CDN) + one tiny vanilla JS file
+  (mobile menu + dark/light toggle only). No build step.
+  Search this file for "[REPLACE" to find every placeholder to edit.
+  Page order: Navbar → Hero → 01 About → 02 Experience → 03 Skills →
+              04 Projects → 05 Education & Licenses → 06 Contact → Footer
+  Styles: css/style.css   Script: js/main.js
   ==========================================================================
 -->
 <html lang="en" data-bs-theme="dark">
@@ -17,38 +17,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- ===== SEO: title + description (shown in Google results) ===== -->
-    <title>Bereket Gebremedhin | Aircraft Simulator Engineer</title>
+    <title>Bereket G. Gebremedhin | Aircraft Simulator Engineer</title>
     <meta
       name="description"
-      content="Bereket Gebremedhin is an aircraft simulator engineer in Dallas, TX who keeps full-flight simulators training-ready and builds web tools for technical teams."
+      content="Bereket G. Gebremedhin: aircraft simulator engineer in Dallas, TX with 13+ years in avionics and full-flight simulator engineering, now expanding into web development."
     />
-    <meta name="author" content="Bereket Gebremedhin" />
+    <meta name="author" content="Bereket G. Gebremedhin" />
+    <!-- [REPLACE] your live Netlify address in the next 4 URLs -->
     <link
       rel="canonical"
-      href="https://[REPLACE-username].github.io/portfolio/"
+      href="https://bereketgebremedhinportfolio.netlify.app/"
     />
 
     <!-- ===== Open Graph: the preview card on LinkedIn, Slack, etc. ===== -->
     <meta property="og:type" content="website" />
     <meta
       property="og:title"
-      content="Bereket Gebremedhin | Aircraft Simulator Engineer"
+      content="Bereket G. Gebremedhin | Aircraft Simulator Engineer"
     />
     <meta
       property="og:description"
-      content="Flight simulator engineering meets full-stack development. Projects, experience, and contact."
+      content="13+ years in avionics and full-flight simulator engineering, now expanding into web development."
     />
     <meta
       property="og:url"
-      content="https://[REPLACE-username].github.io/portfolio/"
+      content="https://bereketgebremedhinportfolio.netlify.app/"
     />
     <meta
       property="og:image"
-      content="https://[REPLACE-username].github.io/portfolio/assets/images/og-image.png"
+      content="https://bereketgebremedhinportfolio.netlify.app/assets/images/og-image.png"
     />
     <meta
       property="og:image:alt"
-      content="Portfolio preview card for Bereket Gebremedhin"
+      content="Portfolio preview card for Bereket G. Gebremedhin"
     />
     <meta name="twitter:card" content="summary_large_image" />
 
@@ -56,21 +57,13 @@
     <link rel="icon" href="favicon.ico" sizes="any" />
     <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml" />
 
-    <!-- Browser UI color on mobile (matches --c-bg in each theme) -->
-    <meta
-      name="theme-color"
-      content="#0B1320"
-      media="(prefers-color-scheme: dark)"
-    />
-    <meta
-      name="theme-color"
-      content="#F6F8FB"
-      media="(prefers-color-scheme: light)"
-    />
+    <!-- Browser UI color on mobile -->
+    <meta name="theme-color" content="#0B1320" />
 
     <!--
-    Apply the saved theme BEFORE anything paints (prevents a flash of the
-    wrong theme). First visit: follow the operating-system setting.
+    Part of the dark/light toggle: applies the saved theme BEFORE the page
+    paints, so there is never a flash of the wrong theme. It must run here,
+    not deferred. Dark is the default; light is used only if the visitor chose it.
   -->
     <script>
       (function () {
@@ -78,89 +71,223 @@
         try {
           saved = localStorage.getItem("theme");
         } catch (e) {}
-        var prefersLight =
-          window.matchMedia &&
-          window.matchMedia("(prefers-color-scheme: light)").matches;
         document.documentElement.setAttribute(
           "data-bs-theme",
-          saved || (prefersLight ? "light" : "dark"),
+          saved === "light" ? "light" : "dark",
         );
-        document.documentElement.classList.add("js"); // tells CSS that JS runs (enables fade-ins)
       })();
     </script>
 
-    <!-- ===== Google Fonts: Space Grotesk (headings), Inter (body), JetBrains Mono (labels) ===== -->
+    <!-- ===== Google Font: Inter, 2 weights only (400 regular, 700 bold) ===== -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Space+Grotesk:wght@500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
       rel="stylesheet"
     />
 
-    <!-- ===== Bootstrap 5 + Bootstrap Icons (CDN) ===== -->
+    <!-- ===== Bootstrap 5.3.3 CSS (CDN). "integrity" makes the browser reject a tampered file ===== -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
     />
 
-    <!-- ===== Design tokens first, then components (order matters) ===== -->
-    <link href="css/tokens.css" rel="stylesheet" />
+    <!-- ===== Custom styles (one file, loaded last so it wins) ===== -->
     <link href="css/style.css" rel="stylesheet" />
-    <link href="css/style.css" rel="stylesheet" />
+
+    <!-- If JavaScript is off: show the menu links and hide the two JS-only buttons -->
+    <noscript>
+      <style>
+        .navbar-toggler,
+        .theme-toggle {
+          display: none !important;
+        }
+        .navbar-collapse {
+          display: block !important;
+        }
+      </style>
+    </noscript>
   </head>
 
-  <!-- Bootstrap ScrollSpy highlights the navbar link of the section on screen -->
-  <body
-    data-bs-spy="scroll"
-    data-bs-target="#mainNav"
-    data-bs-root-margin="0px 0px -40%"
-  >
+  <body>
+    <!--
+    ICONS: Bootstrap Icons 1.11.3 (https://icons.getbootstrap.com), embedded as
+    an SVG sprite. Only the 18 icons this page uses are included, instead of
+    downloading the whole 2,000-icon font (~141 KB).
+    Use one:  <svg class="bi" aria-hidden="true"><use href="#i-github"></use></svg>
+    Add one:  copy the <path> lines from the icon's SVG on icons.getbootstrap.com
+              into a new <symbol id="i-NAME" viewBox="0 0 16 16">…</symbol> below.
+  -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+      <symbol id="i-airplane-engines" viewBox="0 0 16 16">
+        <path
+          d="M8 0c-.787 0-1.292.592-1.572 1.151A4.35 4.35 0 0 0 6 3v3.691l-2 1V7.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.191l-1.17.585A1.5 1.5 0 0 0 0 10.618V12a.5.5 0 0 0 .582.493l1.631-.272.313.937a.5.5 0 0 0 .948 0l.405-1.214 2.21-.369.375 2.253-1.318 1.318A.5.5 0 0 0 5.5 16h5a.5.5 0 0 0 .354-.854l-1.318-1.318.375-2.253 2.21.369.405 1.214a.5.5 0 0 0 .948 0l.313-.937 1.63.272A.5.5 0 0 0 16 12v-1.382a1.5 1.5 0 0 0-.83-1.342L14 8.691V7.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v.191l-2-1V3c0-.568-.14-1.271-.428-1.849C9.292.591 8.787 0 8 0M7 3c0-.432.11-.979.322-1.401C7.542 1.159 7.787 1 8 1s.458.158.678.599C8.889 2.02 9 2.569 9 3v4a.5.5 0 0 0 .276.447l5.448 2.724a.5.5 0 0 1 .276.447v.792l-5.418-.903a.5.5 0 0 0-.575.41l-.5 3a.5.5 0 0 0 .14.437l.646.646H6.707l.647-.646a.5.5 0 0 0 .14-.436l-.5-3a.5.5 0 0 0-.576-.411L1 11.41v-.792a.5.5 0 0 1 .276-.447l5.448-2.724A.5.5 0 0 0 7 7z"
+        />
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 16 16">
+        <path
+          d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"
+        />
+      </symbol>
+      <symbol id="i-moon-stars" viewBox="0 0 16 16">
+        <path
+          d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286"
+        />
+        <path
+          d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.73 1.73 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.73 1.73 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.73 1.73 0 0 0 1.097-1.097zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"
+        />
+      </symbol>
+      <symbol id="i-geo-alt" viewBox="0 0 16 16">
+        <path
+          d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"
+        />
+        <path
+          d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"
+        />
+      </symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 16 16">
+        <path
+          fill-rule="evenodd"
+          d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"
+        />
+      </symbol>
+      <symbol id="i-download" viewBox="0 0 16 16">
+        <path
+          d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"
+        />
+        <path
+          d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"
+        />
+      </symbol>
+      <symbol id="i-check2-square" viewBox="0 0 16 16">
+        <path
+          d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5z"
+        />
+        <path
+          d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0"
+        />
+      </symbol>
+      <symbol id="i-hourglass-split" viewBox="0 0 16 16">
+        <path
+          d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z"
+        />
+      </symbol>
+      <symbol id="i-speedometer2" viewBox="0 0 16 16">
+        <path
+          d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4M3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.39.39 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.39.39 0 0 0-.029-.518z"
+        />
+        <path
+          fill-rule="evenodd"
+          d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A8 8 0 0 1 0 10m8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3"
+        />
+      </symbol>
+      <symbol id="i-code-slash" viewBox="0 0 16 16">
+        <path
+          d="M10.478 1.647a.5.5 0 1 0-.956-.294l-4 13a.5.5 0 0 0 .956.294zM4.854 4.146a.5.5 0 0 1 0 .708L1.707 8l3.147 3.146a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0m6.292 0a.5.5 0 0 0 0 .708L14.293 8l-3.147 3.146a.5.5 0 0 0 .708.708l3.5-3.5a.5.5 0 0 0 0-.708l-3.5-3.5a.5.5 0 0 0-.708 0"
+        />
+      </symbol>
+      <symbol id="i-people" viewBox="0 0 16 16">
+        <path
+          d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"
+        />
+      </symbol>
+      <symbol id="i-mortarboard" viewBox="0 0 16 16">
+        <path
+          d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917zM8 8.46 1.758 5.965 8 3.052l6.242 2.913z"
+        />
+        <path
+          d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46z"
+        />
+      </symbol>
+      <symbol id="i-patch-check" viewBox="0 0 16 16">
+        <path
+          fill-rule="evenodd"
+          d="M10.354 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708 0"
+        />
+        <path
+          d="m10.273 2.513-.921-.944.715-.698.622.637.89-.011a2.89 2.89 0 0 1 2.924 2.924l-.01.89.636.622a2.89 2.89 0 0 1 0 4.134l-.637.622.011.89a2.89 2.89 0 0 1-2.924 2.924l-.89-.01-.622.636a2.89 2.89 0 0 1-4.134 0l-.622-.637-.89.011a2.89 2.89 0 0 1-2.924-2.924l.01-.89-.636-.622a2.89 2.89 0 0 1 0-4.134l.637-.622-.011-.89a2.89 2.89 0 0 1 2.924-2.924l.89.01.622-.636a2.89 2.89 0 0 1 4.134 0l-.715.698a1.89 1.89 0 0 0-2.704 0l-.92.944-1.32-.016a1.89 1.89 0 0 0-1.911 1.912l.016 1.318-.944.921a1.89 1.89 0 0 0 0 2.704l.944.92-.016 1.32a1.89 1.89 0 0 0 1.912 1.911l1.318-.016.921.944a1.89 1.89 0 0 0 2.704 0l.92-.944 1.32.016a1.89 1.89 0 0 0 1.911-1.912l-.016-1.318.944-.921a1.89 1.89 0 0 0 0-2.704l-.944-.92.016-1.32a1.89 1.89 0 0 0-1.912-1.911z"
+        />
+      </symbol>
+      <symbol id="i-envelope" viewBox="0 0 16 16">
+        <path
+          d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"
+        />
+      </symbol>
+      <symbol id="i-linkedin" viewBox="0 0 16 16">
+        <path
+          d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"
+        />
+      </symbol>
+      <symbol id="i-github" viewBox="0 0 16 16">
+        <path
+          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"
+        />
+      </symbol>
+      <symbol id="i-box-arrow-up-right" viewBox="0 0 16 16">
+        <path
+          fill-rule="evenodd"
+          d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"
+        />
+        <path
+          fill-rule="evenodd"
+          d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"
+        />
+      </symbol>
+      <symbol id="i-arrow-up" viewBox="0 0 16 16">
+        <path
+          fill-rule="evenodd"
+          d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"
+        />
+      </symbol>
+    </svg>
+
     <!-- Skip link for keyboard and screen-reader users -->
     <a class="skip-link" href="#main">Skip to main content</a>
 
     <!-- =====================================================================
-       NAVBAR — sticky; shrinks on scroll; amber progress line at the bottom
+       NAVBAR — sticky; collapses into a menu below 992px (js/main.js)
        ===================================================================== -->
     <header>
       <nav
-        id="mainNav"
         class="navbar navbar-expand-lg sticky-top site-nav"
         aria-label="Main navigation"
       >
         <div class="container">
           <a class="navbar-brand brand" href="#home">
-            <i class="bi bi-airplane-engines" aria-hidden="true"></i>
-            <span class="brand-name">Bereket Gebremedhin</span>
-            <span class="label-mono brand-role">Sim Eng</span>
+            <svg class="bi" aria-hidden="true">
+              <use href="#i-airplane-engines"></use>
+            </svg>
+            <span class="brand-name">Bereket G. Gebremedhin</span>
           </a>
 
           <div class="d-flex align-items-center gap-2 order-lg-last">
-            <!-- Availability "annunciator" (desktop). Delete it if you're not looking. -->
+            <!-- "Available" status (desktop). Delete it if you're not job-hunting. -->
             <a class="annunciator d-none d-lg-inline-flex" href="#contact">
               <span class="dot" aria-hidden="true"></span> Available
             </a>
-            <!-- Light / dark toggle (icon + label kept in sync by js/main.js) -->
+            <!-- Dark / light toggle: shows the icon of the mode you'll switch to -->
             <button
               id="themeToggle"
-              class="btn-icon"
+              class="btn-icon theme-toggle"
               type="button"
               aria-label="Switch to light mode"
             >
-              <i class="bi bi-sun" aria-hidden="true"></i>
+              <svg class="bi show-in-dark" aria-hidden="true">
+                <use href="#i-sun"></use>
+              </svg>
+              <svg class="bi show-in-light" aria-hidden="true">
+                <use href="#i-moon-stars"></use>
+              </svg>
             </button>
-            <!-- Hamburger (below 992px) -->
+            <!-- Menu button (below 992px) -->
             <button
               class="navbar-toggler"
               type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navLinks"
               aria-controls="navLinks"
               aria-expanded="false"
-              aria-label="Toggle navigation menu"
+              aria-label="Open navigation menu"
             >
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -172,102 +299,106 @@
                 <a class="nav-link" href="#about">About</a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" href="#experience">Experience</a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" href="#skills">Skills</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#projects">Projects</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#experience">Experience</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#education">Credentials</a>
+                <a class="nav-link" href="#education">Education</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#contact">Contact</a>
               </li>
             </ul>
-            <!-- Mobile version of the annunciator: a full-width button -->
-            <a
-              class="btn btn-secondary w-100 mt-2 d-lg-none justify-content-center"
-              href="#contact"
-            >
-              <span class="annunciator-dot-inline" aria-hidden="true">●</span>
-              Available · Contact me
-            </a>
           </div>
         </div>
-        <div class="nav-progress" aria-hidden="true"></div>
       </nav>
     </header>
 
     <main id="main">
       <!-- =====================================================================
-         HERO — name, value statement, CTAs; portrait in a "display bezel"
+         HERO — name, title, value statement, two buttons, portrait
          ===================================================================== -->
       <section id="home" class="hero" aria-labelledby="hero-title">
         <div class="container">
           <div class="row align-items-center g-5">
-            <div class="col-lg-7 reveal">
+            <div class="col-lg-7">
               <p class="label-mono text-primary-ink mb-3">
-                <i class="bi bi-geo-alt" aria-hidden="true"></i>
-                N 32.78° W 96.80° · Dallas, TX
+                <svg class="bi" aria-hidden="true">
+                  <use href="#i-geo-alt"></use>
+                </svg>
+                Dallas, TX
               </p>
               <h1 id="hero-title" class="hero-name">
-                Bereket<br />Gebremedhin
+                Bereket G.<br />Gebremedhin
               </h1>
+              <p class="hero-title">
+                Aircraft Simulator Engineer
+                <span class="sep" aria-hidden="true">|</span> Aspiring Web
+                Developer
+              </p>
               <p class="hero-statement">
-                I keep full-flight simulators training-ready, and I build the
-                software that helps technical teams work faster.
+                14+ years keeping full-flight simulators accurate, reliable and
+                ready for pilot training. Now adding web development to my
+                toolkit.
               </p>
               <div class="d-flex flex-wrap gap-3 hero-actions">
-                <a href="#projects" class="btn btn-primary btn-lg">
-                  View projects
-                  <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                <a href="#experience" class="btn btn-primary btn-lg">
+                  View experience
+                  <svg class="bi" aria-hidden="true">
+                    <use href="#i-arrow-right"></use>
+                  </svg>
                 </a>
-                <!-- [REPLACE] Put your real resume at this path, or change the href -->
+                <!-- [REPLACE] Put your real resume PDF at this path -->
                 <a
                   href="assets/resume/Bereket-Gebremedhin-Resume.pdf"
                   class="btn btn-outline-primary btn-lg"
                   download
                 >
-                  <i class="bi bi-download" aria-hidden="true"></i> Download
-                  resume
+                  <svg class="bi" aria-hidden="true">
+                    <use href="#i-download"></use>
+                  </svg>
+                  Download resume
                 </a>
               </div>
-              <p class="hero-role label-mono">
-                Aircraft Simulator Engineer @ CAE · Full-Stack Developer
-              </p>
             </div>
 
-            <div class="col-lg-5 reveal">
+            <div class="col-lg-5">
               <div class="bezel">
-                <!-- [REPLACE] Your portrait: 4:5 ratio (e.g. 800x1000), .webp or .jpg. Not lazy: it's above the fold. -->
+                <!--
+                [REPLACE] Your portrait: assets/images/profile.webp,
+                640 x 800 px (4:5), WebP quality ~75, under 80 KB.
+                Not lazy-loaded and high priority: it's the largest thing on screen.
+              -->
                 <img
-                  src="assets/images/profile.svg"
-                  width="480"
-                  height="600"
-                  alt="Portrait of Bereket Gebremedhin"
+                  src="assets/images/profile.webp"
+                  width="640"
+                  height="800"
+                  fetchpriority="high"
+                  alt="Portrait of Bereket G. Gebremedhin"
                 />
-                <span class="bezel-tag label-mono" aria-hidden="true"
-                  >CAM 01 · DFW</span
-                >
               </div>
-              <!-- Readouts: three real numbers recruiters scan for -->
+              <!-- Quick facts -->
               <dl class="readouts">
                 <div>
                   <dt class="label-mono">Years</dt>
-                  <dd>03+</dd>
-                  <!-- [REPLACE] years -->
+                  <dd>13+</dd>
                 </div>
                 <div>
-                  <dt class="label-mono">Sims</dt>
-                  <dd>06</dd>
-                  <!-- [REPLACE] simulators supported -->
+                  <dt class="label-mono">License</dt>
+                  <dd>
+                    <abbr title="Aircraft Maintenance License (Avionics)"
+                      >AML</abbr
+                    >
+                  </dd>
                 </div>
                 <div>
-                  <dt class="label-mono">GROL</dt>
-                  <dd>In prog</dd>
+                  <dt class="label-mono">Based</dt>
+                  <dd>DFW</dd>
                 </div>
               </dl>
             </div>
@@ -276,7 +407,7 @@
       </section>
 
       <!-- =====================================================================
-         01 / ABOUT — bio + "flight log" key facts
+         01 / ABOUT — summary + key facts
          ===================================================================== -->
       <section
         id="about"
@@ -284,60 +415,70 @@
         aria-labelledby="about-title"
       >
         <div class="container">
-          <p class="waypoint-label label-mono reveal">01 / About</p>
-          <h2 id="about-title" class="section-title reveal">Briefing</h2>
+          <p class="waypoint-label label-mono">01 / About</p>
+          <h2 id="about-title" class="section-title">Briefing</h2>
           <div class="row g-4 g-lg-5">
-            <div class="col-lg-7 reveal">
-              <!-- [REPLACE] Your bio: 2–3 short paragraphs -->
+            <div class="col-lg-7">
               <p class="about-lede">
-                I'm an aircraft simulator engineer at CAE in Dallas. I
-                troubleshoot, maintain and validate the full-flight simulators
-                airline pilots train on.
+                I've spent more than 13 years in avionics and full-flight
+                simulator engineering, keeping the simulators airline pilots
+                train on accurate, reliable and ready.
               </p>
               <p>
-                [REPLACE: one sentence on your specialty, e.g. motion and
-                control loading, visual systems, avionics, or host software.]
-                Outside the sim bay I build full-stack web apps, and I'm working
-                toward my FCC GROL license.
+                Today I'm an Aircraft Simulator Technical Professional
+                (Integration Specialist) at CAE in Dallas. Before that I spent
+                11 years as a simulator maintenance engineer at Ethiopian
+                Airlines.
+              </p>
+              <p>
+                I'm now expanding into web development through an AI-powered web
+                development program. I've completed HTML5, CSS3 and Bootstrap 5,
+                and this site is one of my first projects.
               </p>
               <ul class="check-list">
                 <li>
-                  <i class="bi bi-check2-square" aria-hidden="true"></i> Tracing
-                  intermittent faults to a single root cause
+                  <svg class="bi" aria-hidden="true">
+                    <use href="#i-check2-square"></use>
+                  </svg>
+                  Flight simulator integration, maintenance and troubleshooting
                 </li>
                 <li>
-                  <i class="bi bi-check2-square" aria-hidden="true"></i> Clear
-                  documentation the next shift can act on
+                  <svg class="bi" aria-hidden="true">
+                    <use href="#i-check2-square"></use>
+                  </svg>
+                  Avionics and electrical/electronic systems
                 </li>
                 <li>
-                  <i class="bi bi-check2-square" aria-hidden="true"></i> Turning
-                  manual processes into simple web tools
+                  <svg class="bi" aria-hidden="true">
+                    <use href="#i-check2-square"></use>
+                  </svg>
+                  Clear technical documentation and teamwork
                 </li>
               </ul>
             </div>
-            <div class="col-lg-5 reveal">
+            <div class="col-lg-5">
               <div class="flight-log">
                 <p class="label-mono mb-0">Flight log</p>
                 <dl>
                   <div>
                     <dt class="label-mono">Current</dt>
-                    <dd>Aircraft Simulator Engineer, CAE</dd>
+                    <dd>Integration Specialist, CAE</dd>
                   </div>
                   <div>
-                    <dt class="label-mono">Focus</dt>
-                    <dd>[REPLACE: Motion · Visuals · Avionics]</dd>
+                    <dt class="label-mono">Previous</dt>
+                    <dd>Ethiopian Airlines, 2011–2022</dd>
                   </div>
                   <div>
-                    <dt class="label-mono">Base</dt>
-                    <dd>Dallas, TX</dd>
+                    <dt class="label-mono">Experience</dt>
+                    <dd>13+ years, avionics &amp; full-flight simulators</dd>
                   </div>
                   <div>
-                    <dt class="label-mono">Studying</dt>
-                    <dd>FCC GROL, Elements 1 &amp; 3</dd>
+                    <dt class="label-mono">Education</dt>
+                    <dd>B.S. Electrical &amp; Computer Eng. · MBA</dd>
                   </div>
                   <div>
-                    <dt class="label-mono">Languages</dt>
-                    <dd>English · [REPLACE]</dd>
+                    <dt class="label-mono">Learning</dt>
+                    <dd>Web development (HTML5, CSS3, Bootstrap 5 done)</dd>
                   </div>
                 </dl>
               </div>
@@ -347,507 +488,8 @@
       </section>
 
       <!-- =====================================================================
-         02 / SKILLS — grouped like aircraft systems (SYS 01–04)
-         Edit badges inside each .badge-list; edit the usage line under each.
-         ===================================================================== -->
-      <section id="skills" class="section" aria-labelledby="skills-title">
-        <div class="container">
-          <p class="waypoint-label label-mono reveal">02 / Skills</p>
-          <h2 id="skills-title" class="section-title reveal">
-            Systems I work on
-          </h2>
-          <div class="row g-4 stagger">
-            <div class="col-12 col-md-6 col-xl-3 reveal">
-              <div class="card skill-card h-100">
-                <div class="card-body d-flex flex-column">
-                  <span class="label-mono sys-label">SYS 01</span>
-                  <i
-                    class="bi bi-speedometer2 skill-icon"
-                    aria-hidden="true"
-                  ></i>
-                  <h3 class="h5">Simulation &amp; avionics</h3>
-                  <ul
-                    class="badge-list"
-                    aria-label="Simulation and avionics skills"
-                  >
-                    <li>Full-flight simulators</li>
-                    <li>Motion &amp; control loading</li>
-                    <li>Visual systems</li>
-                    <li>Avionics troubleshooting</li>
-                    <li>[REPLACE: aircraft type]</li>
-                  </ul>
-                  <p class="skill-usage label-mono mb-0">
-                    <span>Daily at work</span
-                    ><span
-                      class="meter"
-                      role="img"
-                      aria-label="Daily at work: 3 of 3"
-                      ><i class="on"></i><i class="on"></i><i class="on"></i
-                    ></span>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12 col-md-6 col-xl-3 reveal">
-              <div class="card skill-card h-100">
-                <div class="card-body d-flex flex-column">
-                  <span class="label-mono sys-label">SYS 02</span>
-                  <i class="bi bi-cpu skill-icon" aria-hidden="true"></i>
-                  <h3 class="h5">Electronics &amp; systems</h3>
-                  <ul
-                    class="badge-list"
-                    aria-label="Electronics and systems skills"
-                  >
-                    <li>Schematics &amp; wiring</li>
-                    <li>Oscilloscope / DMM</li>
-                    <li>TCP/IP networking</li>
-                    <li>Linux &amp; Windows</li>
-                    <li>RF fundamentals</li>
-                  </ul>
-                  <p class="skill-usage label-mono mb-0">
-                    <span>Daily at work</span
-                    ><span
-                      class="meter"
-                      role="img"
-                      aria-label="Daily at work: 3 of 3"
-                      ><i class="on"></i><i class="on"></i><i class="on"></i
-                    ></span>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12 col-md-6 col-xl-3 reveal">
-              <div class="card skill-card h-100">
-                <div class="card-body d-flex flex-column">
-                  <span class="label-mono sys-label">SYS 03</span>
-                  <i class="bi bi-code-slash skill-icon" aria-hidden="true"></i>
-                  <h3 class="h5">Software</h3>
-                  <ul class="badge-list" aria-label="Software skills">
-                    <li>JavaScript</li>
-                    <li>Node.js</li>
-                    <li>Python</li>
-                    <li>SQL</li>
-                    <li>HTML / CSS / Bootstrap</li>
-                    <li>Git &amp; GitHub</li>
-                  </ul>
-                  <p class="skill-usage label-mono mb-0">
-                    <span>In projects</span
-                    ><span
-                      class="meter"
-                      role="img"
-                      aria-label="In projects: 2 of 3"
-                      ><i class="on"></i><i class="on"></i><i></i
-                    ></span>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12 col-md-6 col-xl-3 reveal">
-              <div class="card skill-card h-100">
-                <div class="card-body d-flex flex-column">
-                  <span class="label-mono sys-label">SYS 04</span>
-                  <i class="bi bi-people skill-icon" aria-hidden="true"></i>
-                  <h3 class="h5">Professional</h3>
-                  <ul class="badge-list" aria-label="Professional skills">
-                    <li>Root-cause analysis</li>
-                    <li>Technical writing</li>
-                    <li>Shift handover</li>
-                    <li>Customer communication</li>
-                    <li>[REPLACE: language]</li>
-                  </ul>
-                  <p class="skill-usage label-mono mb-0">
-                    <span>Every shift</span
-                    ><span
-                      class="meter"
-                      role="img"
-                      aria-label="Every shift: 3 of 3"
-                      ><i class="on"></i><i class="on"></i><i class="on"></i
-                    ></span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- =====================================================================
-         03 / PROJECTS — featured card (full width, horizontal on large screens) + a 2 × 2 grid
-         To add a project: copy a <div class="... project-item"> block.
-         data-category words must match the filter buttons (simulation, web, data).
-         ===================================================================== -->
-      <section
-        id="projects"
-        class="section section-alt"
-        aria-labelledby="projects-title"
-      >
-        <div class="container">
-          <p class="waypoint-label label-mono reveal">03 / Projects</p>
-          <h2 id="projects-title" class="section-title reveal">
-            Selected work
-          </h2>
-
-          <div
-            class="filter-bar reveal"
-            role="group"
-            aria-label="Filter projects by category"
-          >
-            <span class="label-mono" aria-hidden="true">Mode</span>
-            <button
-              type="button"
-              class="btn-filter"
-              data-filter="all"
-              aria-pressed="true"
-            >
-              All
-            </button>
-            <button
-              type="button"
-              class="btn-filter"
-              data-filter="simulation"
-              aria-pressed="false"
-            >
-              Simulation
-            </button>
-            <button
-              type="button"
-              class="btn-filter"
-              data-filter="web"
-              aria-pressed="false"
-            >
-              Web
-            </button>
-            <button
-              type="button"
-              class="btn-filter"
-              data-filter="data"
-              aria-pressed="false"
-            >
-              Data &amp; tools
-            </button>
-          </div>
-          <p id="filterStatus" class="visually-hidden" aria-live="polite"></p>
-
-          <div class="row g-4" id="projectGrid">
-            <!-- Project 1 (FEATURED: full width, image left on large screens) -->
-            <div
-              class="col-12 project-item reveal"
-              data-category="simulation web"
-            >
-              <article class="card project-card project-card--featured h-100">
-                <div class="project-media">
-                  <!-- [REPLACE] screenshot 1200x675 (16:9), .webp -->
-                  <img
-                    src="assets/images/project-1.svg"
-                    loading="lazy"
-                    width="1200"
-                    height="675"
-                    alt="Placeholder screenshot for the Sim Telemetry Dashboard"
-                  />
-                </div>
-                <div class="card-body d-flex flex-column">
-                  <p class="fig label-mono">
-                    Fig. 01 · Simulation <span class="chip">Featured</span>
-                  </p>
-                  <h3 class="h4 card-title">Sim Telemetry Dashboard</h3>
-                  <p class="card-text">
-                    Live browser dashboard showing simulator health — motion,
-                    visuals and host status — at a glance.
-                  </p>
-                  <dl class="spec">
-                    <div>
-                      <dt>Stack</dt>
-                      <dd>JavaScript · Chart.js · Python · WebSockets</dd>
-                    </div>
-                    <div>
-                      <dt>Role</dt>
-                      <dd>Solo developer</dd>
-                    </div>
-                    <div class="result">
-                      <dt>Result</dt>
-                      <dd>[REPLACE: e.g. Pre-session check 10 → 2 min]</dd>
-                    </div>
-                  </dl>
-                  <div class="card-actions">
-                    <a
-                      href="https://github.com/[REPLACE-username]/portfolio/blob/main/docs/PROJECT-CASE-STUDIES.md#1-sim-telemetry-dashboard"
-                      class="btn btn-secondary"
-                      target="_blank"
-                      rel="noopener"
-                      aria-label="Sim Telemetry Dashboard case study (opens in new tab)"
-                      ><i class="bi bi-journal-text" aria-hidden="true"></i>
-                      Case study</a
-                    >
-                    <a
-                      href="https://github.com/[REPLACE-username]/sim-telemetry-dashboard"
-                      class="btn btn-outline-primary"
-                      target="_blank"
-                      rel="noopener"
-                      aria-label="Sim Telemetry Dashboard source code on GitHub (opens in new tab)"
-                      ><i class="bi bi-github" aria-hidden="true"></i> GitHub</a
-                    >
-                    <a
-                      href="https://[REPLACE-demo-link]"
-                      class="btn btn-primary"
-                      target="_blank"
-                      rel="noopener"
-                      aria-label="Sim Telemetry Dashboard live demo (opens in new tab)"
-                      ><i
-                        class="bi bi-box-arrow-up-right"
-                        aria-hidden="true"
-                      ></i>
-                      Live</a
-                    >
-                  </div>
-                </div>
-              </article>
-            </div>
-
-            <!-- Project 2 -->
-            <div
-              class="col-12 col-md-6 project-item reveal"
-              data-category="data simulation"
-            >
-              <article class="card project-card h-100">
-                <div class="project-media">
-                  <img
-                    src="assets/images/project-2.svg"
-                    loading="lazy"
-                    width="1200"
-                    height="675"
-                    alt="Placeholder screenshot for the Fault Log Analyzer"
-                  />
-                </div>
-                <div class="card-body d-flex flex-column">
-                  <p class="fig label-mono">Fig. 02 · Data</p>
-                  <h3 class="h5 card-title">Fault Log Analyzer</h3>
-                  <p class="card-text">
-                    Parses simulator fault logs and ranks repeat offenders so
-                    fixes target root causes.
-                  </p>
-                  <dl class="spec">
-                    <div>
-                      <dt>Stack</dt>
-                      <dd>Python · pandas · SQLite</dd>
-                    </div>
-                    <div>
-                      <dt>Role</dt>
-                      <dd>Solo developer</dd>
-                    </div>
-                    <div class="result">
-                      <dt>Result</dt>
-                      <dd>[REPLACE: measured result]</dd>
-                    </div>
-                  </dl>
-                  <div class="card-actions">
-                    <a
-                      href="https://github.com/[REPLACE-username]/fault-log-analyzer"
-                      class="btn btn-outline-primary"
-                      target="_blank"
-                      rel="noopener"
-                      aria-label="Fault Log Analyzer source code on GitHub (opens in new tab)"
-                      ><i class="bi bi-github" aria-hidden="true"></i> GitHub</a
-                    >
-                  </div>
-                </div>
-              </article>
-            </div>
-
-            <!-- Project 3 -->
-            <div
-              class="col-12 col-md-6 project-item reveal"
-              data-category="simulation web"
-            >
-              <article class="card project-card h-100">
-                <div class="project-media">
-                  <img
-                    src="assets/images/project-3.svg"
-                    loading="lazy"
-                    width="1200"
-                    height="675"
-                    alt="Placeholder screenshot for the Web Instrument Panel"
-                  />
-                </div>
-                <div class="card-body d-flex flex-column">
-                  <p class="fig label-mono">Fig. 03 · Simulation</p>
-                  <h3 class="h5 card-title">Web Instrument Panel</h3>
-                  <p class="card-text">
-                    Attitude indicator, altimeter and airspeed gauges in the
-                    browser, driven by sim data.
-                  </p>
-                  <dl class="spec">
-                    <div>
-                      <dt>Stack</dt>
-                      <dd>SVG · JavaScript · CSS</dd>
-                    </div>
-                    <div>
-                      <dt>Role</dt>
-                      <dd>Solo developer</dd>
-                    </div>
-                    <div class="result">
-                      <dt>Result</dt>
-                      <dd>[REPLACE: measured result]</dd>
-                    </div>
-                  </dl>
-                  <div class="card-actions">
-                    <a
-                      href="https://github.com/[REPLACE-username]/web-instrument-panel"
-                      class="btn btn-outline-primary"
-                      target="_blank"
-                      rel="noopener"
-                      aria-label="Web Instrument Panel source code on GitHub (opens in new tab)"
-                      ><i class="bi bi-github" aria-hidden="true"></i> GitHub</a
-                    >
-                    <a
-                      href="https://[REPLACE-demo-link]"
-                      class="btn btn-primary"
-                      target="_blank"
-                      rel="noopener"
-                      aria-label="Web Instrument Panel live demo (opens in new tab)"
-                      ><i
-                        class="bi bi-box-arrow-up-right"
-                        aria-hidden="true"
-                      ></i>
-                      Live</a
-                    >
-                  </div>
-                </div>
-              </article>
-            </div>
-
-            <!-- Project 4 -->
-            <div
-              class="col-12 col-md-6 project-item reveal"
-              data-category="web data"
-            >
-              <article class="card project-card h-100">
-                <div class="project-media">
-                  <img
-                    src="assets/images/project-4.svg"
-                    loading="lazy"
-                    width="1200"
-                    height="675"
-                    alt="Placeholder screenshot for the Maintenance Task Tracker"
-                  />
-                </div>
-                <div class="card-body d-flex flex-column">
-                  <p class="fig label-mono">Fig. 04 · Web</p>
-                  <h3 class="h5 card-title">Maintenance Task Tracker</h3>
-                  <p class="card-text">
-                    Full-stack app replacing a shared spreadsheet for shift
-                    tasks, parts and handovers.
-                  </p>
-                  <dl class="spec">
-                    <div>
-                      <dt>Stack</dt>
-                      <dd>Node.js · Express · PostgreSQL</dd>
-                    </div>
-                    <div>
-                      <dt>Role</dt>
-                      <dd>Full-stack developer</dd>
-                    </div>
-                    <div class="result">
-                      <dt>Result</dt>
-                      <dd>[REPLACE: measured result]</dd>
-                    </div>
-                  </dl>
-                  <div class="card-actions">
-                    <a
-                      href="https://github.com/[REPLACE-username]/maintenance-tracker"
-                      class="btn btn-outline-primary"
-                      target="_blank"
-                      rel="noopener"
-                      aria-label="Maintenance Task Tracker source code on GitHub (opens in new tab)"
-                      ><i class="bi bi-github" aria-hidden="true"></i> GitHub</a
-                    >
-                    <a
-                      href="https://[REPLACE-demo-link]"
-                      class="btn btn-primary"
-                      target="_blank"
-                      rel="noopener"
-                      aria-label="Maintenance Task Tracker live demo (opens in new tab)"
-                      ><i
-                        class="bi bi-box-arrow-up-right"
-                        aria-hidden="true"
-                      ></i>
-                      Live</a
-                    >
-                  </div>
-                </div>
-              </article>
-            </div>
-
-            <!-- Project 5 -->
-            <div
-              class="col-12 col-md-6 project-item reveal"
-              data-category="web"
-            >
-              <article class="card project-card h-100">
-                <div class="project-media">
-                  <img
-                    src="assets/images/project-5.svg"
-                    loading="lazy"
-                    width="1200"
-                    height="675"
-                    alt="Placeholder screenshot for the FCC GROL Practice Quiz"
-                  />
-                </div>
-                <div class="card-body d-flex flex-column">
-                  <p class="fig label-mono">Fig. 05 · Web</p>
-                  <h3 class="h5 card-title">FCC GROL Practice Quiz</h3>
-                  <p class="card-text">
-                    Spaced-repetition quiz for FCC Elements 1 &amp; 3, with
-                    accuracy tracked per topic.
-                  </p>
-                  <dl class="spec">
-                    <div>
-                      <dt>Stack</dt>
-                      <dd>HTML · JavaScript · JSON</dd>
-                    </div>
-                    <div>
-                      <dt>Role</dt>
-                      <dd>Solo developer</dd>
-                    </div>
-                    <div class="result">
-                      <dt>Result</dt>
-                      <dd>[REPLACE: measured result]</dd>
-                    </div>
-                  </dl>
-                  <div class="card-actions">
-                    <a
-                      href="https://github.com/[REPLACE-username]/grol-quiz"
-                      class="btn btn-outline-primary"
-                      target="_blank"
-                      rel="noopener"
-                      aria-label="FCC GROL Practice Quiz source code on GitHub (opens in new tab)"
-                      ><i class="bi bi-github" aria-hidden="true"></i> GitHub</a
-                    >
-                    <a
-                      href="https://[REPLACE-demo-link]"
-                      class="btn btn-primary"
-                      target="_blank"
-                      rel="noopener"
-                      aria-label="FCC GROL Practice Quiz live demo (opens in new tab)"
-                      ><i
-                        class="bi bi-box-arrow-up-right"
-                        aria-hidden="true"
-                      ></i>
-                      Live</a
-                    >
-                  </div>
-                </div>
-              </article>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- =====================================================================
-         04 / EXPERIENCE — "flight path" timeline, newest first.
-         The current job has class "is-current" (filled amber waypoint).
+         02 / EXPERIENCE — timeline, newest first. Strongest section.
+         The current job has class "is-current" (filled amber marker).
          ===================================================================== -->
       <section
         id="experience"
@@ -855,79 +497,111 @@
         aria-labelledby="experience-title"
       >
         <div class="container">
-          <p class="waypoint-label label-mono reveal">04 / Experience</p>
-          <h2 id="experience-title" class="section-title reveal">
-            Flight path
-          </h2>
+          <p class="waypoint-label label-mono">02 / Experience</p>
+          <h2 id="experience-title" class="section-title">Flight path</h2>
+          <p class="section-intro">
+            13+ years in avionics and full-flight simulator engineering, at CAE
+            and Ethiopian Airlines.
+          </p>
 
           <ol class="route">
-            <li class="route-item is-current reveal">
-              <p class="route-date label-mono">[REPLACE: YYYY] – Now</p>
-              <span class="waypoint" aria-hidden="true"></span>
-              <div class="route-card">
-                <h3 class="h5">Aircraft Simulator Engineer</h3>
-                <p class="route-org">CAE · Dallas, TX</p>
-                <ul>
-                  <li>
-                    Maintain and troubleshoot full-flight simulators across
-                    motion, visual, avionics and host systems. [REPLACE with
-                    specifics]
-                  </li>
-                  <li>
-                    Cut repeat-fault downtime by [REPLACE: X%] by tracing
-                    intermittent faults to root cause and documenting fixes.
-                  </li>
-                  <li>
-                    Support qualification checks so training schedules stay on
-                    time. [REPLACE]
-                  </li>
-                </ul>
-              </div>
-            </li>
-
-            <li class="route-item reveal">
+            <li class="route-item is-current">
               <p class="route-date label-mono">
-                [REPLACE: YYYY] – [REPLACE: YYYY]
+                <time datetime="2023-10">Oct 2023</time> – Present
               </p>
               <span class="waypoint" aria-hidden="true"></span>
               <div class="route-card">
-                <h3 class="h5">
-                  [REPLACE: Previous role, e.g. Electronics Technician]
+                <h3 class="h4">
+                  Aircraft Simulator Technical Professional, Integration
+                  Specialist
                 </h3>
-                <p class="route-org">
-                  [REPLACE: Company] · [REPLACE: City, State]
-                </p>
-                <ul>
-                  <li>
-                    [REPLACE: Achievement with a number, e.g. "Repaired 200+
-                    boards at 95% first-pass yield."]
-                  </li>
-                  <li>
-                    [REPLACE: Achievement showing initiative or teamwork.]
-                  </li>
-                  <li>
-                    [REPLACE: Achievement showing a tool or process you
-                    improved.]
-                  </li>
-                </ul>
+                <p class="route-org">CAE · Dallas, TX</p>
+                <!-- Achievements grouped by area. To add one, add an <li> to the right group. -->
+                <div class="duty-group">
+                  <h4 class="duty-title label-mono">Simulator integration</h4>
+                  <ul>
+                    <li>
+                      Led 15+ Computer Complex upgrades at customer sites,
+                      integrating hardware-to-software interfaces and ensuring
+                      seamless systems integration.
+                    </li>
+                    <li>
+                      Tuned CAE CompKit4 devices and motion platform
+                      synchronization, enhancing simulation device quality and
+                      effectiveness.
+                    </li>
+                  </ul>
+                </div>
+                <div class="duty-group">
+                  <h4 class="duty-title label-mono">Testing</h4>
+                  <ul>
+                    <li>
+                      Resolved 200+ critical simulator cases for global CAE
+                      customers across the USA, Europe and Asia, maintaining a
+                      98% customer satisfaction rating.
+                    </li>
+                    <li>
+                      Delivered AOG support within 24-hour response windows,
+                      reducing customer downtime by 40% and minimizing training
+                      disruptions.
+                    </li>
+                    <li>
+                      Prepared and ran QTG tests for Simulator Training Device
+                      certifications, ensuring compliance with FAA Part 60
+                      standards.
+                    </li>
+                    <li>
+                      Developed troubleshooting protocols for diagnosing complex
+                      snags in real-time operating systems and networking
+                      infrastructure.
+                    </li>
+                  </ul>
+                </div>
+                <div class="duty-group">
+                  <h4 class="duty-title label-mono">Avionics</h4>
+                  <ul>
+                    <li>
+                      Executed simulator upgrades involving FMS and autopilot
+                      system modifications, improving functionality and
+                      performance metrics by 25%.
+                    </li>
+                    <li>
+                      Coached and trained 12 new technical staff members,
+                      developing their expertise in avionics simulation and
+                      regulatory compliance.
+                    </li>
+                  </ul>
+                </div>
               </div>
             </li>
 
-            <li class="route-item reveal">
-              <p class="route-date label-mono">[REPLACE: YYYY] – Now</p>
+            <li class="route-item">
+              <p class="route-date label-mono">
+                <time datetime="2011-12">Dec 2011</time> –
+                <time datetime="2022-12">Dec 2022</time>
+              </p>
               <span class="waypoint" aria-hidden="true"></span>
               <div class="route-card">
-                <h3 class="h5">Full-stack development (personal projects)</h3>
-                <p class="route-org">Self-directed</p>
+                <h3 class="h4">Aircraft Simulator Maintenance Engineer</h3>
+                <p class="route-org">Ethiopian Airlines</p>
                 <ul>
                   <li>
-                    Built and deployed [REPLACE: N] web apps with JavaScript,
-                    Node.js, Python and SQL.
+                    [REPLACE: Achievement 1, e.g. which simulators you
+                    maintained (types / how many)]
                   </li>
                   <li>
-                    Completed AI-powered full-stack training: front end, APIs,
-                    databases and deployment.
+                    [REPLACE: Achievement 2, e.g. availability or uptime you
+                    kept, with a number]
                   </li>
+                  <li>
+                    [REPLACE: Achievement 3, e.g. regulatory qualifications or
+                    certifications you supported]
+                  </li>
+                </ul>
+                <ul class="tag-list" aria-label="Focus areas">
+                  <li>Simulator maintenance</li>
+                  <li>Troubleshooting</li>
+                  <li>Electrical &amp; electronic systems</li>
                 </ul>
               </div>
             </li>
@@ -936,9 +610,323 @@
       </section>
 
       <!-- =====================================================================
-         05 / CREDENTIALS — pre-flight checklist.
-         Done item: <li class="done"> with bi-check2-square.
-         In progress: <li class="pending"> with bi-hourglass-split + chip.
+         03 / SKILLS — engineering first (core), web as a growing skill.
+         Meter = 3 bars: <i class="on"></i> filled, <i></i> empty. Keep aria-label in sync.
+         ===================================================================== -->
+      <section
+        id="skills"
+        class="section section-alt"
+        aria-labelledby="skills-title"
+      >
+        <div class="container">
+          <p class="waypoint-label label-mono">03 / Skills</p>
+          <h2 id="skills-title" class="section-title">Systems I work on</h2>
+          <div class="row g-4">
+            <div class="col-12 col-lg-4">
+              <div class="card skill-card skill-card--core h-100">
+                <div class="card-body d-flex flex-column">
+                  <p class="label-mono sys-label">
+                    SYS 01 <span class="chip">Core</span>
+                  </p>
+                  <svg class="bi skill-icon" aria-hidden="true">
+                    <use href="#i-speedometer2"></use>
+                  </svg>
+                  <h3 class="h5">Engineering</h3>
+                  <ul class="badge-list" aria-label="Engineering skills">
+                    <li>Flight simulator integration</li>
+                    <li>Maintenance &amp; troubleshooting</li>
+                    <li>Avionics systems</li>
+                    <li>Electrical / electronic systems</li>
+                    <li>[REPLACE: tools / simulator platforms]</li>
+                  </ul>
+                  <p class="skill-usage label-mono mb-0">
+                    <span>13+ years</span
+                    ><span
+                      class="meter"
+                      role="img"
+                      aria-label="Experience level: 3 of 3"
+                      ><i class="on"></i><i class="on"></i><i class="on"></i
+                    ></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <div class="card skill-card h-100">
+                <div class="card-body d-flex flex-column">
+                  <p class="label-mono sys-label">
+                    SYS 02 <span class="chip">Growing</span>
+                  </p>
+                  <svg class="bi skill-icon" aria-hidden="true">
+                    <use href="#i-code-slash"></use>
+                  </svg>
+                  <h3 class="h5">Web development</h3>
+                  <ul class="badge-list" aria-label="Web development skills">
+                    <li>HTML5</li>
+                    <li>CSS3</li>
+                    <li>Bootstrap 5</li>
+                    <li>Responsive design</li>
+                    <li>Git &amp; GitHub</li>
+                    <li>Netlify</li>
+                  </ul>
+                  <p class="skill-usage label-mono mb-0">
+                    <span>Learning, 2026</span
+                    ><span
+                      class="meter"
+                      role="img"
+                      aria-label="Experience level: 1 of 3"
+                      ><i class="on"></i><i></i><i></i
+                    ></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+              <div class="card skill-card h-100">
+                <div class="card-body d-flex flex-column">
+                  <p class="label-mono sys-label">SYS 03</p>
+                  <svg class="bi skill-icon" aria-hidden="true">
+                    <use href="#i-people"></use>
+                  </svg>
+                  <h3 class="h5">Professional</h3>
+                  <ul class="badge-list" aria-label="Professional skills">
+                    <li>Technical documentation</li>
+                    <li>Team collaboration</li>
+                    <li>Project management (MBA)</li>
+                  </ul>
+                  <p class="skill-usage label-mono mb-0">
+                    <span>Every day</span
+                    ><span
+                      class="meter"
+                      role="img"
+                      aria-label="Experience level: 3 of 3"
+                      ><i class="on"></i><i class="on"></i><i class="on"></i
+                    ></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+         04 / PROJECTS — web projects from the program + this portfolio.
+         Images: two WebP sizes per project, same picture:
+           project-N-1200.webp (1200 x 675) and project-N-600.webp (600 x 338).
+         To add a project: copy one <div class="col-12 col-lg-4"> block.
+         ===================================================================== -->
+      <section id="projects" class="section" aria-labelledby="projects-title">
+        <div class="container">
+          <p class="waypoint-label label-mono">04 / Projects</p>
+          <h2 id="projects-title" class="section-title">Web projects</h2>
+          <p class="section-intro">
+            Projects from my AI-powered web development program. More will be
+            added as I complete each module.
+          </p>
+
+          <div class="row g-4">
+            <!-- Project 1: this portfolio -->
+            <div class="col-12 col-lg-4">
+              <article class="card project-card h-100">
+                <div class="project-media">
+                  <!-- [REPLACE] screenshot of this site: project-1-1200.webp + project-1-600.webp -->
+                  <img
+                    src="assets/images/project-1-1200.webp"
+                    srcset="
+                      assets/images/project-1-600.webp   600w,
+                      assets/images/project-1-1200.webp 1200w
+                    "
+                    sizes="(min-width: 1400px) 420px, (min-width: 992px) 30vw, 100vw"
+                    width="1200"
+                    height="675"
+                    loading="lazy"
+                    decoding="async"
+                    alt="Screenshot of this portfolio website"
+                  />
+                </div>
+                <div class="card-body d-flex flex-column">
+                  <p class="fig label-mono">Fig. 01 · Web</p>
+                  <h3 class="h5 card-title">This portfolio</h3>
+                  <p class="card-text">
+                    Single-page, responsive portfolio with dark and light
+                    themes, built for speed and accessibility.
+                  </p>
+                  <dl class="spec">
+                    <div>
+                      <dt>Built with</dt>
+                      <dd>HTML5 · CSS3 · Bootstrap 5</dd>
+                    </div>
+                    <div>
+                      <dt>Hosted on</dt>
+                      <dd>Netlify</dd>
+                    </div>
+                  </dl>
+                  <div class="card-actions">
+                    <a
+                      href="https://bereketgebremedhinportfolio.netlify.app/"
+                      class="btn btn-primary"
+                      target="_blank"
+                      rel="noopener"
+                      aria-label="This portfolio, live site (opens in new tab)"
+                      ><svg class="bi" aria-hidden="true">
+                        <use href="#i-box-arrow-up-right"></use>
+                      </svg>
+                      Live</a
+                    >
+                    <a
+                      href="https://github.com/[REPLACE-username]/[REPLACE-repo]"
+                      class="btn btn-outline-primary"
+                      target="_blank"
+                      rel="noopener"
+                      aria-label="This portfolio, source code on GitHub (opens in new tab)"
+                      ><svg class="bi" aria-hidden="true">
+                        <use href="#i-github"></use>
+                      </svg>
+                      Code</a
+                    >
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <!-- Project 2: course project -->
+            <div class="col-12 col-lg-4">
+              <article class="card project-card h-100">
+                <div class="project-media">
+                  <img
+                    src="assets/images/project-2-1200.webp"
+                    srcset="
+                      assets/images/project-2-600.webp   600w,
+                      assets/images/project-2-1200.webp 1200w
+                    "
+                    sizes="(min-width: 1400px) 420px, (min-width: 992px) 30vw, 100vw"
+                    width="1200"
+                    height="675"
+                    loading="lazy"
+                    decoding="async"
+                    alt="[REPLACE: describe the screenshot of course project 1]"
+                  />
+                </div>
+                <div class="card-body d-flex flex-column">
+                  <p class="fig label-mono">Fig. 02 · Course project</p>
+                  <h3 class="h5 card-title">
+                    [REPLACE: Course project 1 name]
+                  </h3>
+                  <p class="card-text">
+                    [REPLACE: one-line description of what it is and does]
+                  </p>
+                  <dl class="spec">
+                    <div>
+                      <dt>Built with</dt>
+                      <dd>[REPLACE: e.g. HTML5 · CSS3]</dd>
+                    </div>
+                    <div>
+                      <dt>Module</dt>
+                      <dd>[REPLACE: e.g. HTML5 &amp; CSS3]</dd>
+                    </div>
+                  </dl>
+                  <div class="card-actions">
+                    <a
+                      href="https://[REPLACE-live-link]"
+                      class="btn btn-primary"
+                      target="_blank"
+                      rel="noopener"
+                      aria-label="[REPLACE: Course project 1 name], live site (opens in new tab)"
+                      ><svg class="bi" aria-hidden="true">
+                        <use href="#i-box-arrow-up-right"></use>
+                      </svg>
+                      Live</a
+                    >
+                    <a
+                      href="https://github.com/[REPLACE-username]/[REPLACE-repo]"
+                      class="btn btn-outline-primary"
+                      target="_blank"
+                      rel="noopener"
+                      aria-label="[REPLACE: Course project 1 name], source code on GitHub (opens in new tab)"
+                      ><svg class="bi" aria-hidden="true">
+                        <use href="#i-github"></use>
+                      </svg>
+                      Code</a
+                    >
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <!-- Project 3: course project -->
+            <div class="col-12 col-lg-4">
+              <article class="card project-card h-100">
+                <div class="project-media">
+                  <img
+                    src="assets/images/project-3-1200.webp"
+                    srcset="
+                      assets/images/project-3-600.webp   600w,
+                      assets/images/project-3-1200.webp 1200w
+                    "
+                    sizes="(min-width: 1400px) 420px, (min-width: 992px) 30vw, 100vw"
+                    width="1200"
+                    height="675"
+                    loading="lazy"
+                    decoding="async"
+                    alt="[REPLACE: describe the screenshot of course project 2]"
+                  />
+                </div>
+                <div class="card-body d-flex flex-column">
+                  <p class="fig label-mono">Fig. 03 · Course project</p>
+                  <h3 class="h5 card-title">
+                    [REPLACE: Course project 2 name]
+                  </h3>
+                  <p class="card-text">
+                    [REPLACE: one-line description of what it is and does]
+                  </p>
+                  <dl class="spec">
+                    <div>
+                      <dt>Built with</dt>
+                      <dd>[REPLACE: e.g. HTML5 · Bootstrap 5]</dd>
+                    </div>
+                    <div>
+                      <dt>Module</dt>
+                      <dd>[REPLACE: e.g. Bootstrap 5]</dd>
+                    </div>
+                  </dl>
+                  <div class="card-actions">
+                    <a
+                      href="https://[REPLACE-live-link]"
+                      class="btn btn-primary"
+                      target="_blank"
+                      rel="noopener"
+                      aria-label="[REPLACE: Course project 2 name], live site (opens in new tab)"
+                      ><svg class="bi" aria-hidden="true">
+                        <use href="#i-box-arrow-up-right"></use>
+                      </svg>
+                      Live</a
+                    >
+                    <a
+                      href="https://github.com/[REPLACE-username]/[REPLACE-repo]"
+                      class="btn btn-outline-primary"
+                      target="_blank"
+                      rel="noopener"
+                      aria-label="[REPLACE: Course project 2 name], source code on GitHub (opens in new tab)"
+                      ><svg class="bi" aria-hidden="true">
+                        <use href="#i-github"></use>
+                      </svg>
+                      Code</a
+                    >
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+         05 / EDUCATION & LICENSES — checklist.
+         Done: <li class="done"> with #i-check2-square.
+         In progress: <li class="pending"> with #i-hourglass-split + chip.
          ===================================================================== -->
       <section
         id="education"
@@ -946,23 +934,26 @@
         aria-labelledby="education-title"
       >
         <div class="container">
-          <p class="waypoint-label label-mono reveal">05 / Credentials</p>
-          <h2 id="education-title" class="section-title reveal">Checklist</h2>
+          <p class="waypoint-label label-mono">05 / Education &amp; Licenses</p>
+          <h2 id="education-title" class="section-title">Checklist</h2>
           <div class="row g-4">
-            <div class="col-12 col-md-6 reveal">
+            <div class="col-12 col-md-6">
               <div class="card cred-card h-100">
                 <div class="card-body">
                   <h3 class="h5">
-                    <i class="bi bi-mortarboard" aria-hidden="true"></i>
+                    <svg class="bi" aria-hidden="true">
+                      <use href="#i-mortarboard"></use>
+                    </svg>
                     Education
                   </h3>
                   <ul class="checklist">
                     <li class="done">
-                      <i class="bi bi-check2-square" aria-hidden="true"></i>
+                      <svg class="bi" aria-hidden="true">
+                        <use href="#i-check2-square"></use>
+                      </svg>
                       <div>
                         <strong
-                          >[REPLACE: Degree, e.g. A.A.S. Electronics Engineering
-                          Technology]</strong
+                          >B.S. Electrical &amp; Computer Engineering</strong
                         >
                         <span class="meta"
                           >[REPLACE: School] · [REPLACE: Year]</span
@@ -970,51 +961,62 @@
                       </div>
                     </li>
                     <li class="done">
-                      <i class="bi bi-check2-square" aria-hidden="true"></i>
+                      <svg class="bi" aria-hidden="true">
+                        <use href="#i-check2-square"></use>
+                      </svg>
                       <div>
-                        <strong
-                          >AI-Powered Full-Stack Development Training</strong
-                        >
-                        <span class="meta"
-                          >[REPLACE: Provider] · [REPLACE: Year]</span
-                        >
+                        <strong>MBA</strong>
+                        <span class="meta">[REPLACE: School] · 2020</span>
                       </div>
                     </li>
                   </ul>
                 </div>
               </div>
             </div>
-            <div class="col-12 col-md-6 reveal">
+            <div class="col-12 col-md-6">
               <div class="card cred-card h-100">
                 <div class="card-body">
                   <h3 class="h5">
-                    <i class="bi bi-patch-check" aria-hidden="true"></i>
-                    Certifications
+                    <svg class="bi" aria-hidden="true">
+                      <use href="#i-patch-check"></use>
+                    </svg>
+                    Licenses &amp; training
                   </h3>
                   <ul class="checklist">
+                    <li class="done">
+                      <svg class="bi" aria-hidden="true">
+                        <use href="#i-check2-square"></use>
+                      </svg>
+                      <div>
+                        <strong>Aircraft Maintenance License (Avionics)</strong>
+                        <span class="meta"
+                          >[REPLACE: Issuing authority] · [REPLACE: Year]</span
+                        >
+                      </div>
+                    </li>
                     <li class="pending">
-                      <i class="bi bi-hourglass-split" aria-hidden="true"></i>
+                      <svg class="bi" aria-hidden="true">
+                        <use href="#i-hourglass-split"></use>
+                      </svg>
                       <div>
                         <strong
                           >FCC General Radiotelephone Operator License
                           (GROL)</strong
                         >
                         <span class="chip">In progress</span>
-                        <span class="meta"
-                          >Elements 1 &amp; 3 · target [REPLACE: Month
-                          YYYY]</span
-                        >
+                        <span class="meta">Elements 1 &amp; 3</span>
                       </div>
                     </li>
-                    <li class="done">
-                      <i class="bi bi-check2-square" aria-hidden="true"></i>
+                    <li class="pending">
+                      <svg class="bi" aria-hidden="true">
+                        <use href="#i-hourglass-split"></use>
+                      </svg>
                       <div>
-                        <strong
-                          >[REPLACE: Certification, e.g. CompTIA A+ / IPC
-                          J-STD-001]</strong
-                        >
+                        <strong>AI-Powered Web Development program</strong>
+                        <span class="chip">In progress</span>
                         <span class="meta"
-                          >[REPLACE: Issuer] · [REPLACE: Year]</span
+                          >Completed: HTML5, CSS3, Bootstrap 5 · [REPLACE:
+                          Provider]</span
                         >
                       </div>
                     </li>
@@ -1027,177 +1029,91 @@
       </section>
 
       <!-- =====================================================================
-         06 / CONTACT — direct email (with copy button) + Formspree form
-         1. Create a free form at https://formspree.io
-         2. Replace YOUR_FORM_ID in the form's action URL.
-         Until then the form opens the visitor's email app (mailto fallback).
+         06 / CONTACT — plain links (no form, so no page ever reloads)
          ===================================================================== -->
       <section id="contact" class="section" aria-labelledby="contact-title">
         <div class="container">
-          <p class="waypoint-label label-mono reveal">06 / Contact</p>
-          <h2 id="contact-title" class="section-title reveal">
-            Open a channel
-          </h2>
-          <div class="row g-4 g-lg-5">
-            <div class="col-lg-5 reveal">
+          <p class="waypoint-label label-mono">06 / Contact</p>
+          <h2 id="contact-title" class="section-title">Open a channel</h2>
+          <div class="row g-4 g-lg-5 align-items-start">
+            <div class="col-lg-5">
               <p class="fs-5">
-                Hiring for simulator, avionics or software roles? I'd like to
-                hear from you.
+                Hiring for simulator, avionics or integration roles, or want to
+                talk web projects? I'd like to hear from you.
               </p>
-              <div class="contact-email">
-                <i class="bi bi-envelope" aria-hidden="true"></i>
-                <!-- [REPLACE] your email (also in data-email below and in the form) -->
-                <a href="mailto:[REPLACE]@email.com" id="emailLink"
-                  >[REPLACE]@email.com</a
-                >
-                <button
-                  type="button"
-                  class="btn-icon"
-                  id="copyEmail"
-                  data-email="[REPLACE]@email.com"
-                  aria-label="Copy email address"
-                >
-                  <i class="bi bi-copy" aria-hidden="true"></i>
-                </button>
-              </div>
-              <p
-                class="copy-status"
-                id="copyStatus"
-                role="status"
-                aria-live="polite"
-              ></p>
-              <p class="label-mono mb-1">Response time</p>
-              <p class="mb-0"><strong>Within 48 hours</strong></p>
-              <div
-                class="social-links"
-                role="group"
-                aria-label="Social profiles"
-              >
-                <a
-                  href="https://www.linkedin.com/in/[REPLACE]"
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="LinkedIn profile (opens in new tab)"
-                  ><i class="bi bi-linkedin" aria-hidden="true"></i
-                ></a>
-                <a
-                  href="https://github.com/[REPLACE-username]"
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="GitHub profile (opens in new tab)"
-                  ><i class="bi bi-github" aria-hidden="true"></i
-                ></a>
-                <a
-                  href="https://www.youtube.com/@[REPLACE]"
-                  target="_blank"
-                  rel="noopener"
-                  aria-label="YouTube channel (opens in new tab)"
-                  ><i class="bi bi-youtube" aria-hidden="true"></i
-                ></a>
-              </div>
+              <p class="label-mono mb-0">
+                <svg class="bi" aria-hidden="true">
+                  <use href="#i-geo-alt"></use>
+                </svg>
+                Dallas, TX
+              </p>
             </div>
-
-            <div class="col-lg-7 reveal">
-              <!-- novalidate: we show Bootstrap-styled messages instead of browser bubbles -->
-              <form
-                id="contactForm"
-                class="contact-panel needs-validation"
-                novalidate
-                action="https://formspree.io/f/YOUR_FORM_ID"
-                method="POST"
-                data-fallback-email="[REPLACE]@email.com"
-              >
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <label for="name" class="form-label">Name</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="name"
-                      name="name"
-                      autocomplete="name"
-                      required
-                      minlength="2"
-                      aria-describedby="name-error"
-                    />
-                    <div class="invalid-feedback" id="name-error">
-                      Please enter your name.
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <label for="email" class="form-label">Email</label>
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="email"
-                      name="email"
-                      autocomplete="email"
-                      required
-                      aria-describedby="email-error"
-                    />
-                    <div class="invalid-feedback" id="email-error">
-                      Please enter a valid email address.
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <label for="subject" class="form-label">Subject</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="subject"
-                      name="subject"
-                      required
-                      aria-describedby="subject-error"
-                    />
-                    <div class="invalid-feedback" id="subject-error">
-                      Please add a subject.
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <label for="message" class="form-label">Message</label>
-                    <textarea
-                      class="form-control"
-                      id="message"
-                      name="message"
-                      rows="5"
-                      required
-                      minlength="10"
-                      aria-describedby="message-error"
-                    ></textarea>
-                    <div class="invalid-feedback" id="message-error">
-                      Please write a message (at least 10 characters).
-                    </div>
-                  </div>
-                  <!-- Honeypot: hidden from people; bots fill it and Formspree drops them -->
-                  <div class="visually-hidden" aria-hidden="true">
-                    <label for="gotcha">Leave this field empty</label>
-                    <input
-                      type="text"
-                      id="gotcha"
-                      name="_gotcha"
-                      tabindex="-1"
-                      autocomplete="off"
-                    />
-                  </div>
-                  <div class="col-12">
-                    <button
-                      type="submit"
-                      class="btn btn-primary btn-lg"
-                      id="submitBtn"
+            <div class="col-lg-7">
+              <ul class="contact-list">
+                <li>
+                  <!-- [REPLACE] your email (both places on this line) -->
+                  <a href="mailto:Bereketg.medhin777@gmail.com">
+                    <svg class="bi" aria-hidden="true">
+                      <use href="#i-envelope"></use>
+                    </svg>
+                    <span
+                      ><span class="label-mono">Email</span
+                      >Bereketg.medhin777@gmail.com</span
                     >
-                      <i class="bi bi-send" aria-hidden="true"></i>
-                      <span class="btn-label">Send message</span>
-                    </button>
-                  </div>
-                </div>
-                <!-- Result message; screen readers announce it -->
-                <div
-                  id="formStatus"
-                  class="form-status"
-                  role="status"
-                  aria-live="polite"
-                ></div>
-              </form>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.linkedin.com/in/bereket-gebremedhin-b62b10172/]"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <svg class="bi" aria-hidden="true">
+                      <use href="#i-linkedin"></use>
+                    </svg>
+                    <span
+                      ><span class="label-mono">LinkedIn</span
+                      >linkedin.com/in/bereket-gebremedhin-b62b10172/<span
+                        class="visually-hidden"
+                      >
+                        (opens in new tab)</span
+                      ></span
+                    >
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/Bereketg7/Bereket_Gebremedhin_Portfolio"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <svg class="bi" aria-hidden="true">
+                      <use href="#i-github"></use>
+                    </svg>
+                    <span
+                      ><span class="label-mono">GitHub</span
+                      >github.com/Bereket_Gebremedhin_Portfolio<span
+                        class="visually-hidden"
+                      >
+                        (opens in new tab)</span
+                      ></span
+                    >
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="assets/resume/Bereket-Gebremedhin-Resume.pdf"
+                    download
+                  >
+                    <svg class="bi" aria-hidden="true">
+                      <use href="#i-download"></use>
+                    </svg>
+                    <span
+                      ><span class="label-mono">Resume</span>Download PDF</span
+                    >
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -1211,28 +1127,20 @@
       <div
         class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2 text-center text-md-start"
       >
-        <p class="label-mono">Bereket Gebremedhin · End of flight plan</p>
         <p>
-          &copy; <span id="year">2026</span> · Built with HTML, CSS &amp;
-          Bootstrap ·
-          <a
-            href="https://github.com/[REPLACE-username]/portfolio"
-            target="_blank"
-            rel="noopener"
-            >Source on GitHub</a
-          >
+          &copy; 2026 Bereket G. Gebremedhin · Built with HTML, CSS &amp;
+          Bootstrap
         </p>
         <a href="#home" class="back-to-top"
-          ><i class="bi bi-arrow-up" aria-hidden="true"></i> Back to top</a
+          ><svg class="bi" aria-hidden="true">
+            <use href="#i-arrow-up"></use>
+          </svg>
+          Back to top</a
         >
       </div>
     </footer>
 
-    <!-- Bootstrap JS (navbar collapse + ScrollSpy). "defer" = doesn't block rendering -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      defer
-    ></script>
+    <!-- The only script: mobile menu + dark/light toggle. "defer" = never blocks the page. -->
     <script src="js/main.js" defer></script>
   </body>
 </html>
